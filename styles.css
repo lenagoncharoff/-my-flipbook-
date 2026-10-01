@@ -26,15 +26,15 @@ h1 em { color: var(--sage); font-weight: 600; }
 .subtitle { max-width: 255px; margin: 23px 0 0; color: #69736c; font-size: .86rem; line-height: 1.7; }
 .book-scene { position: relative; width: min(100%, 525px); aspect-ratio: 1.38 / 1; margin: 0 auto; perspective: 1800px; }
 .book-shadow { position: absolute; z-index: -2; inset: 9% 4% -7%; border-radius: 50%; background: #8c8273; opacity: .24; filter: blur(24px); transform: rotate(-2deg); }
-.book-spine { position: absolute; z-index: 5; width: 2px; height: 94%; left: 50%; top: 3%; background: linear-gradient(90deg, rgba(49,35,22,.2), rgba(255,255,255,.9), rgba(49,35,22,.15)); box-shadow: 0 0 14px rgba(70,50,30,.28); pointer-events: none; }
-.book-page, .turning-page { overflow: hidden; position: absolute; inset: 0; border: 1px solid rgba(49,42,31,.12); border-radius: 3px 7px 7px 3px; background: var(--paper); box-shadow: 0 14px 20px rgba(48,37,24,.12); backface-visibility: hidden; }
-.book-page { z-index: 2; }
-.turning-page { display: none; z-index: 4; transform-style: preserve-3d; }
-.turning-page::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(33,24,13,.25), transparent 25%, transparent 70%, rgba(33,24,13,.08)); mix-blend-mode: multiply; }
-.turning-page.forward { display: block; transform-origin: left center; animation: turn-forward .82s cubic-bezier(.4,.03,.2,1) forwards; }
+.book-spine { position: absolute; z-index: 4; width: 3px; height: 94%; right: 0; top: 3%; background: linear-gradient(90deg, rgba(49,35,22,.15), rgba(255,255,255,.9), rgba(49,35,22,.2)); box-shadow: 0 0 14px rgba(70,50,30,.28); pointer-events: none; }
+.book-page, .turning-page { overflow: hidden; position: absolute; inset: 0; border: 1px solid rgba(49,42,31,.12); border-radius: 5px; background: var(--paper); box-shadow: 0 14px 20px rgba(48,37,24,.12); }
+.book-page { z-index: 1; }
+.turning-page { display: none; z-index: 2; pointer-events: none; transform-style: preserve-3d; backface-visibility: hidden; will-change: transform, filter; }
+.turning-page::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(33,24,13,.04), transparent 32%, rgba(33,24,13,.3)); mix-blend-mode: multiply; }
+.turning-page.forward { display: block; transform-origin: right center; animation: turn-forward .82s cubic-bezier(.4,.03,.2,1) forwards; }
 .turning-page.backward { display: block; transform-origin: left center; animation: turn-backward .82s cubic-bezier(.4,.03,.2,1) forwards; }
-@keyframes turn-forward { 0% { transform: rotateY(0deg); filter: brightness(1); } 45% { filter: brightness(.77); } 100% { transform: rotateY(-180deg); filter: brightness(.92); } }
-@keyframes turn-backward { 0% { transform: rotateY(-180deg); filter: brightness(.92); } 55% { filter: brightness(.77); } 100% { transform: rotateY(0deg); filter: brightness(1); } }
+@keyframes turn-forward { 0% { transform: rotateY(0deg); filter: brightness(1); } 45% { filter: brightness(.76); } 100% { transform: rotateY(-180deg); filter: brightness(.92); } }
+@keyframes turn-backward { 0% { transform: rotateY(0deg); filter: brightness(1); } 45% { filter: brightness(.76); } 100% { transform: rotateY(180deg); filter: brightness(.92); } }
 .page-layout { height: 100%; position: relative; padding: clamp(22px, 5%, 38px); display: flex; flex-direction: column; }
 .page-number { position: absolute; top: 7%; right: 7%; color: #88948a; font: 10px "DM Mono", monospace; letter-spacing: .1em; }
 .page-kicker { margin: 0; color: var(--coral); font: 10px "DM Mono", monospace; letter-spacing: .16em; font-weight: bold; }

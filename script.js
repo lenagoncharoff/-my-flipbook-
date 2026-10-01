@@ -7,6 +7,7 @@ const pages = [
 
 const currentPage = document.querySelector('#currentPage');
 const turningPage = document.querySelector('#turningPage');
+const bookScene = document.querySelector('#book');
 const prevButton = document.querySelector('#prevButton');
 const nextButton = document.querySelector('#nextButton');
 const pageNumber = document.querySelector('#pageNumber');
@@ -25,28 +26,32 @@ function pageMarkup(page, number) {
   </div>`;
 }
 
-function render() {
+function updateControls() {
   currentPage.innerHTML = pageMarkup(pages[currentIndex], currentIndex);
   pageNumber.textContent = String(currentIndex + 1).padStart(2, '0');
-  prevButton.disabled = currentIndex === 0;
-  nextButton.disabled = currentIndex === pages.length - 1;
+  prevButton.disabled = isTurning || currentIndex === 0;
+  nextButton.disabled = isTurning || currentIndex === pages.length - 1;
+}
+
+function render() {
+  updateControls();
 }
 
 function turn(direction) {
   const nextIndex = currentIndex + direction;
   if (isTurning || nextIndex < 0 || nextIndex >= pages.length) return;
   isTurning = true;
+  bookScene.setAttribute('aria-busy', 'true');
   turningPage.innerHTML = currentPage.innerHTML;
   turningPage.className = `turning-page ${direction > 0 ? 'forward' : 'backward'}`;
   currentIndex = nextIndex;
-  currentPage.innerHTML = pageMarkup(pages[currentIndex], currentIndex);
-  pageNumber.textContent = String(currentIndex + 1).padStart(2, '0');
-  prevButton.disabled = currentIndex === 0;
-  nextButton.disabled = currentIndex === pages.length - 1;
+  updateControls();
   turningPage.addEventListener('animationend', () => {
     turningPage.className = 'turning-page';
     turningPage.innerHTML = '';
     isTurning = false;
+    bookScene.removeAttribute('aria-busy');
+    updateControls();
   }, { once: true });
 }
 
@@ -56,8 +61,8 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowLeft') turn(-1);
   if (event.key === 'ArrowRight') turn(1);
 });
-currentPage.addEventListener('touchstart', (event) => { touchStartX = event.changedTouches[0].screenX; }, { passive: true });
-currentPage.addEventListener('touchend', (event) => {
+bookScene.addEventListener('touchstart', (event) => { touchStartX = event.changedTouches[0].screenX; }, { passive: true });
+bookScene.addEventListener('touchend', (event) => {
   const distance = event.changedTouches[0].screenX - touchStartX;
   if (Math.abs(distance) > 42) turn(distance < 0 ? 1 : -1);
 }, { passive: true });

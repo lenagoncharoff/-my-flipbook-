@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Демонстрационная электронная книга FlipBook" />
+    <title>FlipBook — Истории в движении</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#book" aria-label="FlipBook, к началу">
+          <span class="brand-mark" aria-hidden="true">F</span>
+          <span>flipbook</span>
+        </a>
+        <p class="edition">DEMO EDITION <span>•</span> 2024</p>
+      </header>
+
+      <section class="reader" aria-labelledby="book-title">
+        <div class="book-meta">
+          <p class="eyebrow">ЦИФРОВОЙ ЖУРНАЛ</p>
+          <h1 id="book-title">Тихие<br /><em>маршруты</em></h1>
+          <p class="subtitle">Четыре заметки о местах, где время течёт немного медленнее.</p>
+        </div>
+
+        <div class="book-scene" id="book" aria-live="polite">
+          <div class="book-shadow"></div>
+          <div class="book-spine" aria-hidden="true"></div>
+          <article class="book-page active" id="currentPage" aria-label="Страница книги"></article>
+          <article class="turning-page" id="turningPage" aria-hidden="true"></article>
+        </div>
+
+        <nav class="controls" aria-label="Управление книгой">
+          <button class="nav-button" id="prevButton" type="button" aria-label="Предыдущая страница">
+            <span aria-hidden="true">←</span> Назад
+          </button>
+          <div class="pagination" aria-label="Текущая страница">
+            <span id="pageNumber">01</span><span class="page-divider">/</span><span>04</span>
+          </div>
+          <button class="nav-button nav-button--next" id="nextButton" type="button" aria-label="Следующая страница">
+            Вперёд <span aria-hidden="true">→</span>
+          </button>
+        </nav>
+        <p class="hint">Используйте стрелки клавиатуры или проведите пальцем</p>
+      </section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>

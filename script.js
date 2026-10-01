@@ -28,25 +28,41 @@ function pageMarkup(page, number) {
 function render() {
   currentPage.innerHTML = pageMarkup(pages[currentIndex], currentIndex);
   pageNumber.textContent = String(currentIndex + 1).padStart(2, '0');
-  prevButton.disabled = currentIndex === 0;
-  nextButton.disabled = currentIndex === pages.length - 1;
+  updateControls();
+}
+
+function updateControls() {
+  prevButton.disabled = isTurning || currentIndex === 0;
+  nextButton.disabled = isTurning || currentIndex === pages.length - 1;
 }
 
 function turn(direction) {
-  const nextIndex = currentIndex + direction;
-  if (isTurning || nextIndex < 0 || nextIndex >= pages.length) return;
+  const targetIndex = currentIndex + direction;
+  if (isTurning || targetIndex < 0 || targetIndex >= pages.length) return;
+
   isTurning = true;
-  turningPage.innerHTML = currentPage.innerHTML;
+  updateControls();
+
+  // A forward turn moves the page being read away from the spine, revealing
+  // the next page underneath. A backward turn brings the previous page back
+  // from the spine, so the page being animated must be the destination page.
+  turningPage.innerHTML = pageMarkup(
+    pages[direction > 0 ? currentIndex : targetIndex],
+    direction > 0 ? currentIndex : targetIndex
+  );
   turningPage.className = `turning-page ${direction > 0 ? 'forward' : 'backward'}`;
-  currentIndex = nextIndex;
-  currentPage.innerHTML = pageMarkup(pages[currentIndex], currentIndex);
-  pageNumber.textContent = String(currentIndex + 1).padStart(2, '0');
-  prevButton.disabled = currentIndex === 0;
-  nextButton.disabled = currentIndex === pages.length - 1;
+
+  if (direction > 0) {
+    currentPage.innerHTML = pageMarkup(pages[targetIndex], targetIndex);
+  }
+
   turningPage.addEventListener('animationend', () => {
+    currentIndex = targetIndex;
+    render();
     turningPage.className = 'turning-page';
     turningPage.innerHTML = '';
     isTurning = false;
+    updateControls();
   }, { once: true });
 }
 

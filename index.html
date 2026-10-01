@@ -13,38 +13,33 @@
   <body>
     <main class="app-shell">
       <header class="topbar">
-        <a class="brand" href="#book" aria-label="FlipBook, к началу">
-          <span class="brand-mark" aria-hidden="true">F</span>
-          <span>flipbook</span>
-        </a>
+        <a class="brand" href="#book" aria-label="FlipBook, к началу"><span class="brand-mark" aria-hidden="true">F</span><span>flipbook</span></a>
         <p class="edition">DEMO EDITION <span>•</span> 2024</p>
       </header>
 
-      <section class="reader" aria-labelledby="book-title">
+      <section class="reader" id="reader" aria-labelledby="book-title">
         <div class="book-meta">
           <p class="eyebrow">ЦИФРОВОЙ ЖУРНАЛ</p>
           <h1 id="book-title">Тихие<br /><em>маршруты</em></h1>
           <p class="subtitle">Четыре заметки о местах, где время течёт немного медленнее.</p>
         </div>
 
-        <div class="book-scene" id="book" aria-live="polite">
-          <div class="book-shadow"></div>
-          <div class="book-spine" aria-hidden="true"></div>
-          <article class="book-page active" id="currentPage" aria-label="Страница книги"></article>
-          <article class="turning-page" id="turningPage" aria-hidden="true"></article>
+        <div class="book-scene" id="book" aria-live="polite" aria-label="Раскрытая книга. Страница 1 из 4">
+          <div class="book-shadow" aria-hidden="true"></div>
+          <div class="book-block" id="bookBlock">
+            <div class="page-bed page-bed--left" aria-hidden="true"></div>
+            <div class="page-bed page-bed--right" aria-hidden="true"></div>
+            <div class="leaves" id="leaves"></div>
+            <div class="book-spine" aria-hidden="true"></div>
+          </div>
         </div>
 
         <nav class="controls" aria-label="Управление книгой">
-          <button class="nav-button" id="prevButton" type="button" aria-label="Предыдущая страница">
-            <span aria-hidden="true">←</span> Назад
-          </button>
-          <div class="pagination" aria-label="Текущая страница">
-            <span id="pageNumber">01</span><span class="page-divider">/</span><span>04</span>
-          </div>
-          <button class="nav-button nav-button--next" id="nextButton" type="button" aria-label="Следующая страница">
-            Вперёд <span aria-hidden="true">→</span>
-          </button>
+          <button class="nav-button" id="prevButton" type="button" aria-label="Предыдущий лист"><span aria-hidden="true">←</span> Назад</button>
+          <div class="pagination" aria-label="Текущее положение"><span id="pageNumber">01</span><span class="page-divider">/</span><span id="pageTotal">04</span></div>
+          <button class="nav-button nav-button--next" id="nextButton" type="button" aria-label="Следующий лист">Вперёд <span aria-hidden="true">→</span></button>
         </nav>
+        <button class="fullscreen-button" id="fullscreenButton" type="button"><span aria-hidden="true">⛶</span> <span id="fullscreenLabel">На весь экран</span></button>
         <p class="hint">Используйте стрелки клавиатуры или проведите пальцем</p>
       </section>
     </main>

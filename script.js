@@ -38,21 +38,32 @@ function render() {
 }
 
 function turn(direction) {
-  const nextIndex = currentIndex + direction;
-  if (isTurning || nextIndex < 0 || nextIndex >= pages.length) return;
+  const targetIndex = currentIndex + direction;
+  if (isTurning || targetIndex < 0 || targetIndex >= pages.length) return;
+
   isTurning = true;
   bookScene.setAttribute('aria-busy', 'true');
-  turningPage.innerHTML = currentPage.innerHTML;
+
+  turningPage.innerHTML = pageMarkup(
+    pages[direction > 0 ? currentIndex : targetIndex],
+    direction > 0 ? currentIndex : targetIndex
+  );
+
   turningPage.className = `turning-page ${direction > 0 ? 'forward' : 'backward'}`;
-  currentIndex = nextIndex;
-  updateControls();
+
+  if (direction > 0) {
+    currentPage.innerHTML = pageMarkup(pages[targetIndex], targetIndex);
+  }
+
   turningPage.addEventListener('animationend', () => {
+    currentIndex = targetIndex;
+    render();
     turningPage.className = 'turning-page';
     turningPage.innerHTML = '';
     isTurning = false;
     bookScene.removeAttribute('aria-busy');
-    updateControls();
   }, { once: true });
+ 
 }
 
 prevButton.addEventListener('click', () => turn(-1));

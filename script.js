@@ -15,7 +15,6 @@ const sheets = [
 
 const leaves = document.querySelector('#leaves');
 const bookScene = document.querySelector('#book');
-const reader = document.querySelector('#reader');
 const prevButton = document.querySelector('#prevButton');
 const nextButton = document.querySelector('#nextButton');
 const pageNumber = document.querySelector('#pageNumber');
@@ -33,16 +32,16 @@ function syncLayers() {
   [...leaves.children].forEach((leaf, index) => {
     const flipped = index < position;
     leaf.classList.toggle('is-flipped', flipped);
-    leaf.style.zIndex = flipped ? String(20 + index) : String(20 - index);
+    leaf.style.zIndex = flipped ? String(30 + index) : String(30 - index);
   });
 }
 
 function updateControls() {
   pageNumber.textContent = String(position + 1).padStart(2, '0');
   pageTotal.textContent = String(sheets.length + 1).padStart(2, '0');
-  prevButton.disabled = position === 0;
-  nextButton.disabled = position === sheets.length;
-  bookScene.setAttribute('aria-label', `Раскрытая книга. Страница ${position + 1} из ${sheets.length + 1}`);
+  prevButton.hidden = position === 0;
+  nextButton.hidden = position === sheets.length;
+  bookScene.setAttribute('aria-label', `Раскрытая книга. Положение ${position + 1} из ${sheets.length + 1}`);
 }
 
 function turn(direction) {
@@ -61,15 +60,24 @@ function renderSheets() {
 
 async function toggleFullscreen() {
   if (document.fullscreenElement) await document.exitFullscreen();
-  else await reader.requestFullscreen();
+  else await bookScene.requestFullscreen();
 }
 
 prevButton.addEventListener('click', () => turn(-1));
 nextButton.addEventListener('click', () => turn(1));
 fullscreenButton.addEventListener('click', () => { toggleFullscreen().catch(() => {}); });
-document.addEventListener('fullscreenchange', () => { const active = document.fullscreenElement === reader; fullscreenLabel.textContent = active ? 'Выйти из полноэкранного режима' : 'На весь экран'; });
-document.addEventListener('keydown', (event) => { if (event.key === 'ArrowLeft') turn(-1); if (event.key === 'ArrowRight') turn(1); });
+document.addEventListener('fullscreenchange', () => {
+  const active = document.fullscreenElement === bookScene;
+  fullscreenLabel.textContent = active ? 'Выйти из полноэкранного режима' : 'Книга на весь экран';
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'ArrowLeft') turn(-1);
+  if (event.key === 'ArrowRight') turn(1);
+});
 bookScene.addEventListener('touchstart', (event) => { touchStartX = event.changedTouches[0].screenX; }, { passive: true });
-bookScene.addEventListener('touchend', (event) => { const distance = event.changedTouches[0].screenX - touchStartX; if (Math.abs(distance) > 42) turn(distance < 0 ? 1 : -1); }, { passive: true });
+bookScene.addEventListener('touchend', (event) => {
+  const distance = event.changedTouches[0].screenX - touchStartX;
+  if (Math.abs(distance) > 42) turn(distance < 0 ? 1 : -1);
+}, { passive: true });
 
 renderSheets();

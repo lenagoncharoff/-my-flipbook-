@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=4" />
+    <link rel="stylesheet" href="styles.css?v=5" />
   </head>
   <body>
     <main class="app-shell">
@@ -22,7 +22,7 @@
           <h1 id="book-title">Тихие<br /><em>маршруты</em></h1>
           <p class="subtitle">Четыре заметки о местах, где время течёт немного медленнее.</p>
         </div>
-        <div class="book-scene" id="book" aria-live="polite" aria-label="Раскрытая книга. Страница 1 из 4">
+        <div class="book-scene" id="book" aria-live="polite" aria-label="Книга закрыта. Обложка. Положение 1 из 4">
           <div class="book-shadow" aria-hidden="true"></div>
           <div class="book-block" id="bookBlock">
             <div class="page-bed page-bed--left" aria-hidden="true"></div>
@@ -40,25 +40,6 @@
         <p class="hint">Используйте стрелки клавиатуры или проведите пальцем</p>
       </section>
     </main>
-    <script src="script.js?v=4"></script>
-    <script>
-      // Compatibility patch: keep navigation independent from the old handler
-      // and make the fullscreen target the book itself.
-      document.getElementById('prevButton').addEventListener('click', function (e) {
-        e.stopImmediatePropagation();
-        turn(-1);
-      }, true);
-      document.getElementById('nextButton').addEventListener('click', function (e) {
-        e.stopImmediatePropagation();
-        turn(1);
-      }, true);
-      document.getElementById('fullscreenButton').addEventListener('click', async function (e) {
-        e.stopImmediatePropagation();
-        try {
-          if (document.fullscreenElement) await document.exitFullscreen();
-          else await document.getElementById('book').requestFullscreen();
-        } catch (_) {}
-      }, true);
-    </script>
+    <script src="script.js?v=5"></script>
   </body>
 </html>

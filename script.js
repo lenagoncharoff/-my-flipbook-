@@ -1,6 +1,6 @@
 const sheets = [
   {
-    front: { className: 'cover', kicker: 'ВЫПУСК 01 · ОСЕНЬ', title: 'Тихие<br><em>маршруты</em>', copy: 'Небольшой путеводитель для тех, кто выбирает дорогу без спешки.', footer: 'ЛИСТАЙТЕ ВПЁРЕД', shapes: '<i class="shape sun"></i><i class="shape hill"></i>' },
+    front: { className: 'cover', kicker: 'ВЫПУСК 01 · ОСЕНЬ', title: 'Тихие<br><em>маршруты</em>', copy: 'Небольшой путеводитель для тех, кто выбирает дорогу без спешки.', footer: 'ЛИСТАЙТЕ ВПЕРЁД', shapes: '<i class="shape sun"></i><i class="shape hill"></i>' },
     back: { className: 'inside-cover', kicker: 'ТИХИЕ МАРШРУТЫ', title: 'Начать<br><em>путь</em>', copy: 'Откройте книгу и оставьте немного места для дороги, света и тишины.', footer: 'ОСЕНЬ · 2024', shapes: '<i class="shape route-mark"></i>' }
   },
   {
@@ -24,7 +24,6 @@ const fullscreenButton = document.querySelector('#fullscreenButton');
 const fullscreenLabel = document.querySelector('#fullscreenLabel');
 let position = 0;
 let touchStartX = 0;
-let turningTimer = null;
 
 function pageMarkup(page, number) {
   return `<div class="page-layout ${page.className}">${page.shapes}<p class="page-kicker">${page.kicker}</p><span class="page-number">${String(number).padStart(2, '0')}</span><h2 class="page-title">${page.title}</h2><p class="page-copy">${page.copy}</p><div class="page-footer"><span>${page.footer}</span><span>FLIPBOOK</span></div></div>`;
@@ -46,30 +45,12 @@ function updateControls() {
   bookScene.setAttribute('aria-label', `Раскрытая книга. Страница ${position + 1} из ${sheets.length + 1}`);
 }
 
-function finishTurn() {
-  bookScene.removeAttribute('aria-busy');
-  [...leaves.children].forEach((leaf) => leaf.classList.remove('is-animated'));
-  updateControls();
-}
-
 function turn(direction) {
   const target = position + direction;
   if (target < 0 || target > sheets.length) return;
-  const leafIndex = direction > 0 ? position : position - 1;
-  const leaf = leaves.children[leafIndex];
-  if (!leaf) return;
-
-  if (turningTimer) window.clearTimeout(turningTimer);
-  bookScene.setAttribute('aria-busy', 'true');
-  leaf.classList.add('is-animated');
   position = target;
   syncLayers();
   updateControls();
-
-  turningTimer = window.setTimeout(() => {
-    turningTimer = null;
-    finishTurn();
-  }, 900);
 }
 
 function renderSheets() {

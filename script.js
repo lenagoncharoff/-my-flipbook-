@@ -33,6 +33,7 @@ function syncLayers() {
     const flipped = index < position;
     leaf.classList.toggle('is-flipped', flipped);
     leaf.style.zIndex = flipped ? String(30 + index) : String(30 - index);
+    leaf.style.visibility = position === 0 && index > 0 ? 'hidden' : 'visible';
   });
   bookScene.dataset.position = String(position);
 }

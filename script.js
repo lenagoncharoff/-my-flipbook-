@@ -47,6 +47,7 @@ function updateControls() {
 }
 
 function finishTurn() {
+  if (!isTurning) return;
   isTurning = false;
   bookScene.removeAttribute('aria-busy');
   [...leaves.children].forEach((leaf) => leaf.classList.remove('is-animated'));
@@ -66,6 +67,7 @@ function turn(direction) {
   leaf.addEventListener('transitionend', (event) => {
     if (event.propertyName === 'transform') finishTurn();
   }, { once: true });
+  window.setTimeout(finishTurn, 900);
 }
 
 function renderSheets() {

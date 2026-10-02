@@ -34,6 +34,7 @@ function syncLayers() {
     leaf.classList.toggle('is-flipped', flipped);
     leaf.style.zIndex = flipped ? String(30 + index) : String(30 - index);
   });
+  bookScene.dataset.position = String(position);
 }
 
 function updateControls() {

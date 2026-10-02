@@ -41,5 +41,24 @@
       </section>
     </main>
     <script src="script.js?v=4"></script>
+    <script>
+      // Compatibility patch: keep navigation independent from the old handler
+      // and make the fullscreen target the book itself.
+      document.getElementById('prevButton').addEventListener('click', function (e) {
+        e.stopImmediatePropagation();
+        turn(-1);
+      }, true);
+      document.getElementById('nextButton').addEventListener('click', function (e) {
+        e.stopImmediatePropagation();
+        turn(1);
+      }, true);
+      document.getElementById('fullscreenButton').addEventListener('click', async function (e) {
+        e.stopImmediatePropagation();
+        try {
+          if (document.fullscreenElement) await document.exitFullscreen();
+          else await document.getElementById('book').requestFullscreen();
+        } catch (_) {}
+      }, true);
+    </script>
   </body>
 </html>
